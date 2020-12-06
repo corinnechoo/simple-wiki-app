@@ -3,8 +3,9 @@ import {
 } from '@nestjs/common';
 
 import { WikiService } from './wiki.service';
-
+import {ParseSqlPipe} from './pipes/custom-query.pipe'
 // var parseUrl = require('parseurl');
+import { ValidationGuard } from './guards/validator.guard';
 
 @Controller('wiki-query')
 export class WikiController {
@@ -20,6 +21,13 @@ export class WikiController {
     // async getCategories() {
     //     return 'placeholder';
     // }
+    @UseGuards(ValidationGuard)
+    @Get('custom-query') // todo: rename endpoint
+    async getCustomQuery(@Query('sql',ParseSqlPipe) sql: string) {//@Query('sql', ParseSqlPipe) sql: string
+        return
+        const mostOutdatedPage = await this.wikiService.getCustomQuery(sql);
+        return mostOutdatedPage;
+    }
 
     // Assumption: users will give correct input? because case sensitivity matters? or should we store the categories as case insensitive?
     @Get('most-outdated-page') // todo: rename endpoint
@@ -27,6 +35,7 @@ export class WikiController {
         const mostOutdatedPage = await this.wikiService.getOutdatedPages(category);
         return mostOutdatedPage;
     }
+
 }
 
 
