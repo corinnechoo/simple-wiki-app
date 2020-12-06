@@ -2,7 +2,10 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler, BadRequestE
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-
+/**
+ * Intercepts the response object and formats it
+ * @return {Object}      returns the status code, value and message  
+ */
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {

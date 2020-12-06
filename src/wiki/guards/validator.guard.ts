@@ -8,6 +8,12 @@ import { Reflector } from '@nestjs/core';
 import { HeaderDto } from '../../utils/dto/header.dto';
 import { BodyDto } from '../../utils/dto/body.dto';
 
+/**
+ * As Headers cannot be validated in a pipe in nestjs, a guard is used for validating input data.
+ * ValidationGuard will validate the request body, ensuring that it is an object with key 'sql' required
+ * for the endpoint and the header contains the correct content-type. 
+ * @return {Boolean}      Whether the request body and header meets the validation requirements or not
+ */
 @Injectable()
 export class ValidationGuard implements CanActivate {
     constructor(private reflector: Reflector) { }
