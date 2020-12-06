@@ -1,17 +1,13 @@
-import { Repository , Connection} from 'typeorm';
+import { Connection} from 'typeorm';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository, InjectConnection} from '@nestjs/typeorm';
+import { InjectConnection} from '@nestjs/typeorm';
 
 import { ENDPOINTS_DATA } from './data/endpoints';
-import { CategoryOutdatedness } from './entities/category-outdatedness.entity';
 
 @Injectable()
 export class WikiService {
     constructor(
-        @InjectRepository(CategoryOutdatedness)
-        private CategoryOutdatednessRepository: Repository<CategoryOutdatedness>,
-
         @InjectConnection()
          private connection: Connection
 
@@ -46,7 +42,7 @@ export class WikiService {
             ON c1.category = '${category}' AND c1.time_stamp_diff = c2.maxdiff
         WHERE p.page_id = c1.page_id;
         `
-        let response = this.CategoryOutdatednessRepository.query(sql)
+        let response = this.connection.query(sql)
         return response
     }
 }

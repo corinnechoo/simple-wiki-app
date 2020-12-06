@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { WikiController } from './wiki.controller';
 import { WikiService } from './wiki.service';
-import { CategoryOutdatedness } from './entities/category-outdatedness.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CategoryOutdatedness])],
+    imports: [],
     controllers: [WikiController],
     providers: [WikiService]
 })
