@@ -1,6 +1,6 @@
 import { Repository , Connection} from 'typeorm';
 
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository, InjectConnection} from '@nestjs/typeorm';
 
 import { ENDPOINTS_DATA } from './data/endpoints';
@@ -25,10 +25,11 @@ export class WikiService {
         });
     };
     getCustomQuery(sql): Promise<any> {
-        let response = this.connection.query(sql)
+        let response = this.connection.query(sql).catch((error) => {
+            throw new BadRequestException(error.message);
+          });
         return response
     }
-
 
     // TODO: format response (do we want page title to be space separated? )
     getOutdatedPages(category): Promise<any> {

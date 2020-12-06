@@ -8,8 +8,11 @@ export class BodyDto {
     @Matches(/(select)+/i, {
         message: 'SQL must be a SELECT statement'
     })
-    @Matches(/(category|categorylinks|categoryoutdatedness|page|pagelinksorder)+/, {
+    @Matches(/((category|categorylinks|categoryoutdatedness|page|pagelinksorder)\s)+/, {
         message: 'Available tables for query: category, categorylinks, categoryoutdatedness, page, pagelinksorder'
+    })
+    @Matches(/(limit)+/i, {
+        message: 'SQL must be a containt a LIMIT value up to 100'
     })
     @Expose({ name: 'sql' })
     "sql": string;
