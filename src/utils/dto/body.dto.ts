@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, Matches, MaxLength, MinLength , ValidateNested} from 'class-validator';
 
-export class ParamDto {
+export class BodyDto {
     @IsNotEmpty()
     @IsString()
     @MinLength(14) // 'select * from '
@@ -14,10 +14,3 @@ export class ParamDto {
     @Expose({ name: 'sql' })
     "sql": string;
 }
-
-
-// 
-// 
-// 
-// 
-// 

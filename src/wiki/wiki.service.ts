@@ -1,7 +1,7 @@
-import { Repository } from 'typeorm';
+import { Repository , Connection} from 'typeorm';
 
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository, InjectConnection} from '@nestjs/typeorm';
 
 import { ENDPOINTS_DATA } from './data/endpoints';
 import { CategoryOutdatedness } from './entities/category-outdatedness.entity';
@@ -11,6 +11,9 @@ export class WikiService {
     constructor(
         @InjectRepository(CategoryOutdatedness)
         private CategoryOutdatednessRepository: Repository<CategoryOutdatedness>,
+
+        @InjectConnection()
+         private connection: Connection
 
     ) { }
 
@@ -22,7 +25,7 @@ export class WikiService {
         });
     };
     getCustomQuery(sql): Promise<any> {
-        let response = this.CategoryOutdatednessRepository.query(sql)
+        let response = this.connection.query(sql)
         return response
     }
 

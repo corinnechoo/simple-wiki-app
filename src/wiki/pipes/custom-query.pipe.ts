@@ -1,6 +1,4 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
-import { ParamDto } from './../../utils/dto/param.dto';
-import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class ParseSqlPipe implements PipeTransform<string, string> {
@@ -9,7 +7,7 @@ export class ParseSqlPipe implements PipeTransform<string, string> {
     //   value += " LIMIT 100"
     // }
 
-    // console.log(value)
+    console.log(value)
     return value
     // const val = parseInt(value, 10);
     // if (isNaN(val)) {
