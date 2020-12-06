@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { WikiModule } from './wiki/wiki.module';
+
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
+	imports: [
+		TypeOrmModule.forRoot({
 			type: 'mysql',
 			host: process.env.DB_HOST,
 			port: Number(process.env.DB_PORT),
@@ -15,9 +17,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 			dateStrings: true,
 			autoLoadEntities: true,
 			entities: [],
-		})
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+		}),
+		WikiModule
+	],
+	controllers: [AppController],
+	providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
