@@ -1,5 +1,5 @@
 import {
-    Controller, Get, Headers, Param, Query, Req, UseGuards, UseInterceptors
+    Controller, Get, Post, Headers, Body, Query, UseGuards
 } from '@nestjs/common';
 
 import { WikiService } from './wiki.service';
@@ -22,9 +22,11 @@ export class WikiController {
     //     return 'placeholder';
     // }
     @UseGuards(ValidationGuard)
-    @Get('custom-query') // todo: rename endpoint
-    async getCustomQuery(@Query('sql',ParseSqlPipe) sql: string) {//@Query('sql', ParseSqlPipe) sql: string
-        return
+    @Post('custom-query') // todo: rename endpoint
+    async getCustomQuery(
+        @Headers('Content-Type') contentType: string,
+        @Body('sql') sql: string
+    ) {
         const mostOutdatedPage = await this.wikiService.getCustomQuery(sql);
         return mostOutdatedPage;
     }
