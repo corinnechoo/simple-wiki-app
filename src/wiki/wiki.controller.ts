@@ -4,24 +4,29 @@ import {
 
 import { WikiService } from './wiki.service';
 import {ParseSqlPipe} from './pipes/custom-query.pipe'
-// var parseUrl = require('parseurl');
 import { ValidationGuard } from './guards/validator.guard';
 import { ResponseInterceptor } from './interceptors/transform.interceptor';
 
+/**
+ * Handles incoming requests and returns responses to the client with route path prefix 'wiki-query'
+ */
 @Controller('wiki-query')
 export class WikiController {
     constructor(private wikiService: WikiService) { }
 
+    /**
+     * Route maps to GET /wiki-query
+     * @return {Object}      The list of available endpoints
+     */
     @Get()
     async getEndpoints() {
         const report = await this.wikiService.getEndpoints();
         return report;
     }
-    //so that users will know how to query categories (assuming they don't)
-    // @Get('categories')
-    // async getCategories() {
-    //     return 'placeholder';
-    // }
+    /**
+     * Route maps to GET /wiki-query/custom-query
+     * @return {Object}      The result of the query executed
+     */
     @UseGuards(ValidationGuard)
     @UseInterceptors(ResponseInterceptor)
     @Post('custom-query') // todo: rename endpoint
@@ -29,12 +34,16 @@ export class WikiController {
         @Headers('Content-Type') contentType: string,
         @Body('sql', ParseSqlPipe) sql: string
     ) {
-        const mostOutdatedPage = await this.wikiService.getCustomQuery(sql);
-        return mostOutdatedPage;
+        const customData = await this.wikiService.getCustomQuery(sql);
+        return customData;
     }
 
+    /**
+     * Route maps to GET /wiki-query/most-outdated-page
+     * @return {Object}      The most outdated page in the category given
+     */
     // Assumption: users will give correct input? because case sensitivity matters? or should we store the categories as case insensitive?
-    @Get('most-outdated-page') // todo: rename endpoint
+    @Get('most-outdated-page')
     async getOutdatedPages(@Query('category') category: string) {
         const mostOutdatedPage = await this.wikiService.getOutdatedPages(category);
         return mostOutdatedPage;
