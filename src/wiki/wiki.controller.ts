@@ -1,12 +1,11 @@
 import {
-    Controller, Get, Post, Headers, Body, Query, UseGuards, UseInterceptors, HttpCode
+    Body, Controller, Get, Headers, HttpCode, Post, Query, UseGuards, UseInterceptors
 } from '@nestjs/common';
 
-import { WikiService } from './wiki.service';
-import {ParseSqlPipe} from './pipes/custom-query.pipe'
-import { ValidationGuard } from './guards/validator.guard';
+import { ValidationGuard, ValidationGuardMostOutdatedPage } from './guards/validator.guard';
 import { ResponseInterceptor } from './interceptors/transform.interceptor';
-import { QueryDto } from './../utils/dto/query.dto';
+import { ParseSqlPipe } from './pipes/custom-query.pipe';
+import { WikiService } from './wiki.service';
 
 /**
  * Handles incoming requests and returns responses to the client with route path prefix 'wiki-query'
@@ -45,8 +44,9 @@ export class WikiController {
      * @return {Object}      The most outdated page in the category given
      */
     // Assumption: users will give correct input? because case sensitivity matters? or should we store the categories as case insensitive?
+    @UseGuards(ValidationGuardMostOutdatedPage)
     @Get('most-outdated-page')
-    async getOutdatedPages(@Query('category') category: QueryDto) {
+    async getOutdatedPages(@Query('category') category: string) {
         const mostOutdatedPage = await this.wikiService.getOutdatedPages(category);
         return mostOutdatedPage;
     }
