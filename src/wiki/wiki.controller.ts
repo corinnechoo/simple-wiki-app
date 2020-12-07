@@ -1,5 +1,5 @@
 import {
-    Controller, Get, Post, Headers, Body, Query, UseGuards, UseInterceptors
+    Controller, Get, Post, Headers, Body, Query, UseGuards, UseInterceptors, HttpCode
 } from '@nestjs/common';
 
 import { WikiService } from './wiki.service';
@@ -10,6 +10,7 @@ import { ResponseInterceptor } from './interceptors/transform.interceptor';
 /**
  * Handles incoming requests and returns responses to the client with route path prefix 'wiki-query'
  */
+@UseInterceptors(ResponseInterceptor)
 @Controller('wiki-query')
 export class WikiController {
     constructor(private wikiService: WikiService) { }
@@ -28,7 +29,7 @@ export class WikiController {
      * @return {Object}      The result of the query executed
      */
     @UseGuards(ValidationGuard)
-    @UseInterceptors(ResponseInterceptor)
+    @HttpCode(200) 
     @Post('custom-query') // todo: rename endpoint
     async getCustomQuery(
         @Headers('Content-Type') contentType: string,
