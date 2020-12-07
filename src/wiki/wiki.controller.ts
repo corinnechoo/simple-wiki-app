@@ -6,6 +6,7 @@ import { WikiService } from './wiki.service';
 import {ParseSqlPipe} from './pipes/custom-query.pipe'
 import { ValidationGuard } from './guards/validator.guard';
 import { ResponseInterceptor } from './interceptors/transform.interceptor';
+import { QueryDto } from './../utils/dto/query.dto';
 
 /**
  * Handles incoming requests and returns responses to the client with route path prefix 'wiki-query'
@@ -45,7 +46,7 @@ export class WikiController {
      */
     // Assumption: users will give correct input? because case sensitivity matters? or should we store the categories as case insensitive?
     @Get('most-outdated-page')
-    async getOutdatedPages(@Query('category') category: string) {
+    async getOutdatedPages(@Query('category') category: QueryDto) {
         const mostOutdatedPage = await this.wikiService.getOutdatedPages(category);
         return mostOutdatedPage;
     }
