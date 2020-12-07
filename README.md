@@ -5,10 +5,12 @@ API for querying simple wikipedia data. The API exposes 2 endpoints:
 2. Returns the most outdated page given a category name
 
 To build image:
-
+```
 docker build --tag image_name:tag .
 ```
 To run:
+
+```
 docker run --rm --name wiki-api -it -d \
 -e DB_HOST=$HOST \
 -e DB_PORT=$PORT \
