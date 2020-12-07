@@ -10,6 +10,12 @@ import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from
 @Injectable()
 export class ParseSqlPipe implements PipeTransform<string, string> {
   transform(value: string, metadata: ArgumentMetadata): string {
+    const cleanSql = value.trim();
+
+    if (cleanSql.match(/^(insert|update|delete|truncate)/i)) {
+      throw new BadRequestException('Statement should not insert|update|delete|truncate');
+    } 
+
     const limit = "limit "
     try {
       var limitValue = value.toLowerCase().split(limit)[1].split(" ")[0]
@@ -27,3 +33,4 @@ export class ParseSqlPipe implements PipeTransform<string, string> {
     }
   }
 }
+
