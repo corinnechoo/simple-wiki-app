@@ -1,4 +1,6 @@
-# API for querying simple wikipedia data 
+# simple-wiki-app
+
+API for querying simple wikipedia data 
 
 Consists of 2 endpoints
 1. For querying a database with a raw sql query
