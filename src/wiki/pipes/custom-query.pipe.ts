@@ -13,7 +13,7 @@ export class ParseSqlPipe implements PipeTransform<string, string> {
     const cleanSql = value.trim();
 
     if (cleanSql.match(/^(insert|update|delete|truncate)/i)) {
-      throw new BadRequestException('Statement should not insert|update|delete|truncate ');
+      throw new BadRequestException('Statement should not insert|update|delete|truncate');
     } 
 
     const limit = "limit "
